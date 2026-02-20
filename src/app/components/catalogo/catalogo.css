@@ -1,0 +1,25 @@
+body {
+    background-color: #F8FBFF;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+header {
+    background: linear-gradient(90deg, #CFE9F7, #FFF3B0);
+    padding: 20px;
+    text-align: center;
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 25px;
+}
+
+header h1 {
+    margin: 0;
+    color: #3A4A5A;
+    font-size: 2rem;
+}
+
+section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}

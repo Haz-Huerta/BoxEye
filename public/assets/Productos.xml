@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<productos>
+
+    <producto id="1">
+        <nombre>Sanrio Cinnamoroll Cooking House Series Blind Box</nombre>
+        <precio>379.99</precio>
+        <imagen>https://evolvingcardshop.com/cdn/shop/files/MINISO-Genuine-Sanrio-Cinnamoroll-Cooking-House-Series-Blind-Box-Figure-Collection-Ornament-Decoration-Children-s-Toy-Gift-RJ_5e6b66ef-b6e9-422f-9319-5e643dd5182c.1e3f88bf119fade4c747.png?v=1734294749&amp;width=713</imagen>
+        <categoria>BlindBox</categoria>
+        <descripcion>Caja sorpresa de figura Cinnamoroll, serie Cooking House</descripcion>
+	<inStock>true</inStock>
+    </producto>
+
+    <producto id="2">
+        <nombre>Sanrio Pochacco School Day Series</nombre>
+        <precio>500.00</precio>
+        <imagen>https://miniso.bg/uploads/product-image/image/530x530/6936735394166-91.webp</imagen>
+        <categoria>BlindBox</categoria>
+        <descripcion>Caja sorpresa de figura Pochacco, serie School Day</descripcion>
+	<inStock>true</inStock>
+    </producto>
+
+    <producto id="3">
+        <nombre>Funko Mystery Minis FNAF 10 Aniversario</nombre>
+        <precio>459.99</precio>
+        <imagen>https://i.ebayimg.com/images/g/k6oAAOSwYkdmafqv/s-l1600.webp</imagen>
+	<categoria>BlindBox</categoria>
+        <descripcion>Caja sorpresa de figura Five Night's at Freddy's, Mystery Mini</descripcion>
+	<inStock>true</inStock>
+    </producto>
+
+    <producto id="4">
+        <nombre>Sanrio Pompompurin Childhood Four Seasons Series</nombre>
+        <precio>500.00</precio>
+        <imagen>https://sanriogears.com/wp-content/uploads/2025/08/Sc131cf6d58cf4e06bc35b9ec9fe7cacb4.jpg</imagen>
+	<categoria>BlindBox</categoria>
+        <descripcion>Caja sorpresa de figura Pompompurin, serie Childhood four seasons</descripcion>
+	<inStock>true</inStock>
+    </producto>
+
+    <producto id="5">
+        <nombre>Nintendo Cartas Amiibo Animal Crossing Vol.5</nombre>
+        <precio>299.99</precio>
+        <imagen>https://i.ebayimg.com/images/g/QREAAOSws3phzXMV/s-l960.webp</imagen>
+	<categoria>BlindBox</categoria>
+        <descripcion>Pack con 6 tarjetas amiibo de Animal Crossing de la serie 5 </descripcion>
+	<inStock>true</inStock>
+    </producto>
+
+</productos>
