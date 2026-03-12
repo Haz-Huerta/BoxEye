@@ -1,20 +1,47 @@
-import { Component, computed, inject} from '@angular/core';
+import { Component, computed, signal} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Product } from '../../models/producto.model';
 import { ProductsService } from '../../services/productos.service';
 import { ProductCard } from '../product-card/product-card';
+import { CarritoService } from '../../services/carrito.service';
+import { CarritoComponent } from '../carrito/carrito.component';
+import { Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [ProductCard],
+  imports: [ProductCard, CarritoComponent, CommonModule],
   templateUrl: './catalogo.html',
-  styleUrl: './catalogo.css',
+  styleUrls: ['./catalogo.css'],
 })
 export class CatalogoComponent {
-  // Signal con el arreglo de productos (valor inicial: [])
-  
-  private productsService = inject(ProductsService);
-  products = toSignal(this.productsService.getAll(), { initialValue: [] });
-  constructor() {}
+  products = signal<Product[]>([]);
+  inStockCount = computed(() => this.products().filter(p => p.inStock).length);
+
+  constructor(
+    private productsService: ProductsService,
+    private carritoService: CarritoService
+  ) {
+    this.productsService.getAll().subscribe({
+      next: (data) => this.products.set(data),
+      error: (err) => console.error('Error cargando XML:', err),
+    });
+  }
+  @Output() add = new EventEmitter<Product>();
+
+  agregar(producto: Product) {
+    this.carritoService.agregar(producto);
+    this.add.emit(producto);
+    console.log('Producto agregado al carrito:', producto);
+  }
+
+  trackById(index: number, product: Product) {
+  return product.id;
+  }
 }
+
+
+
+
 

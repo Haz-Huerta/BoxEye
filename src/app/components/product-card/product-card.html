@@ -8,6 +8,9 @@
         </div>
         <p>{{ product.category}}</p>
         <p>{{ product.description }}</p>
+        <button (click)="addToCart()">
+        Agregar
+        </button>
         <p>
             @if (product.inStock) {En Stock}
             @else {Agotado}
