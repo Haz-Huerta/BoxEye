@@ -1,6 +1,11 @@
 <section class="cart">
   <h2 class="title">Carrito</h2>
+  <div>
+    <h2 class="title">Tu Selección</h2>
+    <button class="btn-back" (click)="regresar()">← Volver al catálogo</button>
+  </div>
 
+  <section>
   @if (carrito().length === 0) {
     <p class="empty">Tu carrito está vacío.</p>
   } @else {
@@ -28,4 +33,3 @@
     </div>
   }
 </section>
-

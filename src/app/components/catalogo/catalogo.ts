@@ -18,10 +18,11 @@ import { CommonModule } from '@angular/common';
 export class CatalogoComponent {
   products = signal<Product[]>([]);
   inStockCount = computed(() => this.products().filter(p => p.inStock).length);
+  vistaActiva = signal<'catalogo' | 'carrito'>('catalogo');
 
   constructor(
-    private productsService: ProductsService,
-    private carritoService: CarritoService
+    public productsService: ProductsService,
+    public carritoService: CarritoService
   ) {
     this.productsService.getAll().subscribe({
       next: (data) => this.products.set(data),
@@ -38,6 +39,10 @@ export class CatalogoComponent {
 
   trackById(index: number, product: Product) {
   return product.id;
+  }
+
+  cambiarVista(vista: 'catalogo' | 'carrito') {
+    this.vistaActiva.set(vista);
   }
 }
 

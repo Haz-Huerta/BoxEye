@@ -1,14 +1,119 @@
-.cart { border: 1px solid #e5e7eb; border-radius: 12px; padding: 14px; background: #fff; }
-.title { margin: 0 0 10px; font-size: 18px; }
-.empty { margin: 0; color: #6b7280; }
+.cart { 
+    border: 2px solid #E6F4FA; /* Unificado con tus articles */
+    border-radius: 16px; 
+    padding: 20px; 
+    background: #FFFDF5; /* Fondo crema de tu web */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    max-width: 400px; /* Ajusta según tu diseño */
+}
 
-.list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.item { display: flex; justify-content: space-between; align-items: center; gap: 12px; border: 1px solid #e5e7eb; border-radius: 10px; padding: 10px; }
-.line { font-size: 14px; }
+.title { 
+    margin: 0 0 16px; 
+    font-size: 1.4rem; 
+    color: #3A4A5A; /* Color de tus h3 */
+    font-weight: bold;
+    border-bottom: 2px solid #E6F4FA;
+    padding-bottom: 8px;
+}
 
-.total { margin-top: 12px; font-weight: 700; }
+.empty { 
+    margin: 20px 0; 
+    color: #6b7280; 
+    text-align: center;
+    font-style: italic;
+}
 
-.actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
-.btn { border: 0; border-radius: 10px; padding: 10px 12px; cursor: pointer; }
-.btn.danger { background: #ef4444; color: #fff; }
-.btn.purple { background: #7c3aed; color: #fff; }
+/* Lista de productos */
+.list { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+    display: grid; 
+    gap: 12px; 
+}
+
+.item { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 12px; 
+    background: #fff; /* Blanco puro para resaltar sobre el crema */
+    border: 1px solid #E6F4FA; 
+    border-radius: 12px; 
+    padding: 12px; 
+    transition: transform 0.2s ease;
+}
+
+.item:hover {
+    transform: scale(1.02);
+}
+
+.line { 
+    font-size: 0.95rem; 
+    color: #3A4A5A;
+    font-weight: 500;
+}
+
+/* Totalizador */
+.total { 
+    margin-top: 20px; 
+    padding-top: 12px;
+    border-top: 2px dashed #E6F4FA;
+    font-size: 1.1rem;
+    font-weight: 800; 
+    color: #2F6F91; /* El azul oscuro de tus precios */
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Botones con tu paleta */
+.actions { 
+    margin-top: 15px; 
+    display: flex; 
+    gap: 10px; 
+}
+
+.btn { 
+    flex: 1;
+    border: 0; 
+    border-radius: 12px; 
+    padding: 12px; 
+    cursor: pointer; 
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: filter 0.2s, transform 0.1s;
+}
+
+.btn:active {
+    transform: translateY(2px);
+}
+
+.btn.danger { 
+    background: #FFBABA; /* Un rojo más suave para que no desentone */
+    color: #A70000; 
+}
+
+.btn.purple { 
+    background: #FFE08A; /* Cambiado al amarillo de tus 'span' para coherencia */
+    color: #5A4A00; 
+}
+
+.btn:hover {
+    filter: brightness(0.95);
+}
+
+.btn-back {
+    background: none;
+    border: 2px solid #E6F4FA;
+    color: #2F6F91;
+    padding: 6px 15px;
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.btn-back:hover {
+    background-color: #E6F4FA;
+}

@@ -1,8 +1,16 @@
 <header class="header">
-  <h1>Catálogo de productos</h1>
-  <p>Productos en stock: {{ inStockCount() }}</p>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+<h1>{{ vistaActiva() === 'catalogo' ? 'Catálogo de Productos' : 'Mi Carrito' }}</h1>
+  
+  @if (vistaActiva() === 'catalogo') {
+    <button class="btn-nav" (click)="cambiarVista('carrito')">
+      🛒 Ver Carrito ({{ carritoService.productos().length }})
+    </button>
+  <p class="stock-counter">Productos en stock: {{ inStockCount() }}</p>
+    }
 </header>
 
+@if (vistaActiva() === 'catalogo') {
 @if (products().length === 0) {
   <p>Cargando productos (o revisa la ruta del XML).</p>
 } @else {
@@ -12,6 +20,7 @@
     }
   </section>
 }
-
+} @else {
+  <app-carrito (volver)="cambiarVista('catalogo')"></app-carrito>
+}
 <hr class="sep" />
-<app-carrito></app-carrito>

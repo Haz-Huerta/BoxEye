@@ -52,3 +52,39 @@ article p:last-child {
     font-weight: bold;
     color: #2F6F91;
 }
+
+article button {
+    margin-top: 12px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    background-color: #7C3AED; /* Un violeta que resalte o puedes usar el azul #2F6F91 */
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2); /* Sombra suave del color del botón */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+article button:hover {
+    background-color: #6D28D9; /* Un tono más oscuro al pasar el mouse */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(124, 58, 237, 0.3);
+}
+
+article button:active {
+    transform: translateY(0);
+}
+
+/* Estilo opcional para cuando el producto está agotado */
+article button:disabled {
+    background-color: #E5E7EB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
