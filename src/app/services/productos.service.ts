@@ -1,40 +1,38 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {map, Observable} from 'rxjs';
-import {Product} from '../models/producto.model';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
+import { Product } from '../models/producto.model';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ProductsService {
-    constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/api/productos';
 
-    getAll(): Observable<Product[]> {
-        return this.http.get('assets/Productos.xml', { responseType: 'text' }).pipe(
-      map((xmlText) => this.parseProductsXml(xmlText))
-    );
-}
+  getProductos(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl);
+  }
 
-private parseProductsXml(xmlText: string): Product[] {
+  private parseProductsXml(xmlText: string): Product[] {
     const parser = new DOMParser();
     const doc = parser.parseFromString(xmlText, 'application/xml');
 
-    // Si el XML está mal formado, normalmente aparece <parsererror>
     if (doc.getElementsByTagName('parsererror').length > 0) {
       return [];
     }
 
-   const nodes = Array.from(doc.getElementsByTagName('producto'));
+    const nodes = Array.from(doc.getElementsByTagName('producto'));
     return nodes.map((node) => ({
       id: this.getNumber(node, 'id'),
-      name: this.getText(node, 'nombre'),
-      price: this.getNumber(node, 'precio'),
-      imageUrl: this.getText(node, 'imagen'),
-      category: this.getText(node, 'categoria'),
-      description: this.getText(node, 'descripcion'),
-      inStock: this.getBoolean(node, 'inStock'),
+      nombre: this.getText(node, 'nombre'),
+      precio: this.getNumber(node, 'precio'),
+      imagen: this.getText(node, 'imagen'),
+      categoria: this.getText(node, 'categoria'),
+      descripcion: this.getText(node, 'descripcion'),
+      stock: this.getNumber(node, 'inStock'),
     }));
-}
+  }
 
- private getText(parent: Element, tag: string): string {
+  private getText(parent: Element, tag: string): string {
     return parent.getElementsByTagName(tag)[0]?.textContent?.trim() ?? '';
   }
 

@@ -1,11 +1,9 @@
-import { Component, computed, signal} from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, signal, OnInit, inject, Output, EventEmitter } from '@angular/core';
 import { Product } from '../../models/producto.model';
 import { ProductsService } from '../../services/productos.service';
 import { ProductCard } from '../product-card/product-card';
 import { CarritoService } from '../../services/carrito.service';
 import { CarritoComponent } from '../carrito/carrito.component';
-import { Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,21 +13,28 @@ import { CommonModule } from '@angular/common';
   templateUrl: './catalogo.html',
   styleUrls: ['./catalogo.css'],
 })
-export class CatalogoComponent {
+export class CatalogoComponent implements OnInit {
+
+  private productsService = inject(ProductsService);
+  public carritoService = inject(CarritoService);
+
   products = signal<Product[]>([]);
-  inStockCount = computed(() => this.products().filter(p => p.inStock).length);
+  inStockCount = computed(() => this.products().filter(p => p.stock).length);
   vistaActiva = signal<'catalogo' | 'carrito'>('catalogo');
 
-  constructor(
-    public productsService: ProductsService,
-    public carritoService: CarritoService
-  ) {
-    this.productsService.getAll().subscribe({
-      next: (data) => this.products.set(data),
-      error: (err) => console.error('Error cargando XML:', err),
+  @Output() add = new EventEmitter<Product>();
+
+  ngOnInit(): void {
+    this.productsService.getProductos().subscribe({
+      next: (data) => {
+        this.products.set(data); // ✅ correcto
+        console.log('Productos cargados:', data);
+      },
+      error: (err) => {
+        console.error('Error cargando productos:', err);
+      },
     });
   }
-  @Output() add = new EventEmitter<Product>();
 
   agregar(producto: Product) {
     this.carritoService.agregar(producto);
@@ -38,15 +43,13 @@ export class CatalogoComponent {
   }
 
   trackById(index: number, product: Product) {
-  return product.id;
+    return product.id;
   }
 
   cambiarVista(vista: 'catalogo' | 'carrito') {
     this.vistaActiva.set(vista);
   }
 }
-
-
 
 
 

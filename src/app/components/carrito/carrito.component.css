@@ -73,7 +73,7 @@
     gap: 10px; 
 }
 
-.btn { 
+.btn{ 
     flex: 1;
     border: 0; 
     border-radius: 12px; 
@@ -116,4 +116,21 @@
 
 .btn-back:hover {
     background-color: #E6F4FA;
+}
+
+.btn-pagar {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #ffc439; /* El color amarillo característico de PayPal */
+  color: #003087; /* Azul oscuro de PayPal para el texto */
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 50px; /* Estilo redondeado "pill" */
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-pagar:hover {
+  background-color: #f2ba36;
 }

@@ -4,6 +4,8 @@ import { CurrencyPipe } from '@angular/common';
 import { CarritoService } from '../../services/carrito.service';
 import { Product } from '../../models/producto.model';
 import { Signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { inject } from '@angular/core';
 
 
 @Component({
@@ -17,6 +19,7 @@ export class CarritoComponent {
   @Output() volver = new EventEmitter<void>();
   carrito: Signal<Product[]>;
   total = computed(() => this.carritoService.total());
+  private router = inject(Router);
 
   constructor(private carritoService: CarritoService) {
     this.carrito = this.carritoService.productos;
@@ -36,6 +39,10 @@ export class CarritoComponent {
 
   regresar() {
     this.volver.emit();
+  }
+
+  irAPagar() {
+    this.router.navigate(['/checkout']);
   }
 }
 

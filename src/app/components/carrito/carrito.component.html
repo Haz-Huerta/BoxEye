@@ -13,7 +13,7 @@
       @for (producto of carrito(); track $index) {
         <li class="item">
           <span class="line">
-            {{ producto.name }} - {{ producto.price | currency:'MXN' }}
+            {{ producto.nombre }} - {{ producto.precio | currency:'MXN' }}
           </span>
 
           <button class="btn danger" (click)="quitar($index)">
@@ -29,7 +29,8 @@
 
     <div class="actions">
       <button class="btn" (click)="vaciar()">Vaciar carrito</button>
-      <button class="btn purple" (click)="exportarXML()">Exportar Recibo XML</button>
+      
+      <button (click)="irAPagar()" class="btn-pagar">Ir a Pagar</button>
     </div>
   }
 </section>

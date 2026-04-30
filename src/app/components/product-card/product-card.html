@@ -1,19 +1,25 @@
 <article>
-    <img [src]="product.imageUrl"
-         [alt]="product.name"/>
+    <img [src]="product.imagen"
+         [alt]="product.nombre"/>
     <div>
         <div>
-            <h3>{{ product.name }}</h3>
-            <span>{{product.price}}</span>
+            <h3>{{ product.nombre }}</h3>
+            <span>${{ product.precio }}</span>
         </div>
-        <p>{{ product.category}}</p>
-        <p>{{ product.description }}</p>
-        <button (click)="addToCart()">
+        <p>{{ product.categoria }}</p>
+        <p>{{ product.descripcion }}</p>
+        
+        <button (click)="addToCart()" [disabled]="product.stock === 0">
         Agregar
         </button>
+
         <p>
-            @if (product.inStock) {En Stock}
-            @else {Agotado}
+            @if (product.stock > 0) { 
+                En Stock: {{ product.stock }} unidades 
+            }
+            @else { 
+                <span style="color: red;">Agotado</span> 
+            }
         </p>
     </div>
 </article>

@@ -1,0 +1,26 @@
+<div class="checkout-card">
+  <h3>Resumen del pedido</h3>
+
+  @if (carrito().length === 0) {
+    <p>Cargando productos...</p>
+  } @else {
+    @for (producto of carrito(); track producto.id) {
+      <div class="product-row">
+        <span>{{ producto.nombre }}</span>
+        <span>{{ producto.precio | currency:'MXN' }}</span>
+      </div>
+    }
+    
+    <hr>
+    <div class="total-row">
+      <span>Total:</span>
+      <strong>{{ total() | currency:'MXN' }}</strong>
+    </div>
+
+    <div #paypalButtonContainer id="paypal-button-container"></div>
+  }
+
+  @if (mensaje) {
+    <p class="status-message">{{ mensaje }}</p>
+  }
+</div>
