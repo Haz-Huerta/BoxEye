@@ -1,8 +1,12 @@
-import { createPaypalOrder, capturePaypalOrder } from '../services/paypal.service.js';
 
+const {
+  createPaypalOrder,
+  capturePaypalOrder
+} = require('../services/paypal.services');
 
-export async function createOrder(req, res) {
+async function createOrder(req, res) {
   try {
+
     const { items, total } = req.body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -23,8 +27,10 @@ export async function createOrder(req, res) {
       id: order.id,
       status: order.status
     });
+
   } catch (error) {
-    console.error('Error en createOrder:', error.message);
+
+    console.error('Error en createOrder:', error);
 
     res.status(500).json({
       error: 'No se pudo crear la orden',
@@ -33,8 +39,10 @@ export async function createOrder(req, res) {
   }
 }
 
-export async function captureOrder(req, res) {
+async function captureOrder(req, res) {
+
   try {
+
     const { orderId } = req.body;
 
     if (!orderId) {
@@ -46,8 +54,10 @@ export async function captureOrder(req, res) {
     const captureData = await capturePaypalOrder(orderId);
 
     res.status(200).json(captureData);
+
   } catch (error) {
-    console.error('Error en captureOrder:', error.message);
+
+    console.error('Error en captureOrder:', error);
 
     res.status(500).json({
       error: 'No se pudo capturar la orden',
@@ -55,3 +65,8 @@ export async function captureOrder(req, res) {
     });
   }
 }
+
+module.exports = {
+  createOrder,
+  captureOrder
+};

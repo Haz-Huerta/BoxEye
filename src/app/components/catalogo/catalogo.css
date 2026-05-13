@@ -1,76 +1,473 @@
-body {
-    background-color: #F8FBFF;
-    /* Fuente Outfit para todo el texto general */
+:host {
+    display: block;
+    background: #9b87ff;
+    min-height: 100vh;
     font-family: 'Outfit', sans-serif;
-    color: #3A4A5A;
 }
 
-header {
-    background: linear-gradient(90deg, #CFE9F7, #FFF3B0);
-    padding: 30px 20px; /* Un poco más de aire */
-    text-align: center;
-    border-radius: 0 0 30px 30px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 15px rgba(207, 233, 247, 0.4);
+/* NAVBAR */
+
+.navbar {
+    height: 85px;
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 50px;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-header h1 {
+.logo {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.4rem;
+    color: #7c3aed;
     margin: 0;
-    /* Fuente Fredoka para el título principal */
-    font-family: 'Fredoka', sans-serif;
-    color: #3A4A5A;
-    font-size: 2.8rem; /* Más grande y llamativo */
-    letter-spacing: 1px;
-}
-
-/* Aplicar la fuente de títulos también a los nombres de los productos */
-article h3 {
-    font-family: 'Fredoka', sans-serif;
     font-weight: 700;
-    color: #3A4A5A;
-    font-size: 1.3rem;
+    letter-spacing: 2px;
 }
 
-/* Estilo para los precios o etiquetas para que resalten */
-article span {
-    font-family: 'Fredoka', sans-serif;
-    background-color: #FFE08A;
-    padding: 4px 12px;
-    border-radius: 20px;
-    color: #5A4A00;
+.nav-links {
+    display: flex;
+    gap: 35px;
 }
 
-.stock-counter {
-    display: inline-flex;
+.nav-links a {
+    text-decoration: none;
+    color: #222;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.nav-links a:hover {
+    color: #7c3aed;
+}
+
+/* BOTON CARRITO */
+
+.cart-btn {
+    background: #7c3aed;
+    color: white;
+
+    border: none;
+    border-radius: 14px;
+
+    padding: 12px 22px;
+
+    display: flex;
     align-items: center;
     gap: 10px;
-    background-color: #E6F4FA; /* El azul claro de tus bordes */
-    padding: 8px 16px;
-    border-radius: 50px; /* Forma de píldora */
-    border: 2px solid #CFE9F7;
-    margin: 10px 20px;
-    font-family: 'Fredoka', sans-serif; /* La fuente llamativa que elegimos */
-    color: #2F6F91; /* El azul oscuro de tus precios */
+
+    font-size: 1rem;
     font-weight: 600;
-    box-shadow: 0 4px 10px rgba(206, 233, 247, 0.3);
+
+    cursor: pointer;
+
+    transition: 0.25s;
+
+    box-shadow: 0 4px 12px rgba(255,122,0,0.25);
 }
 
-.stock-counter span {
-    background-color: #FFFDF5; /* Fondo crema para que el número resalte */
+.cart-btn:hover {
+    transform: translateY(-2px);
+    background: #7c3aed;
+}
+
+.cart-icon {
+    font-size: 1.2rem;
+}
+
+.cart-count {
+    background: white;
+    color: #7c3aed;
+
+    border-radius: 50px;
+
     padding: 2px 10px;
-    border-radius: 20px;
-    color: #5A4A00; /* Color café/dorado de tus etiquetas */
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+
+    font-size: 0.9rem;
+    font-weight: 700;
 }
 
-.btn-nav {
-    background-color: #7c3aed;
+/* HERO */
+
+.hero-banner {
+    position: relative;
+
+    width: 95%;
+    height: 420px;
+
+    margin: 30px auto;
+
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background: linear-gradient(
+        to right,
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.15)
+    );
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding-left: 80px;
+
+    color: white;
+}
+
+.hero-overlay h2 {
+    font-family: 'Fredoka', sans-serif;
+
+    font-size: 4rem;
+
+    margin: 0 0 10px 0;
+
+    max-width: 600px;
+}
+
+.hero-overlay p {
+    font-size: 1.3rem;
+
+    max-width: 500px;
+
+    line-height: 1.6;
+}
+
+/* PRODUCTOS */
+
+.products-section {
+    width: 95%;
+    margin: auto;
+}
+
+.section-title h2 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 4rem;
+    color: #ffffff;
+
+    margin-bottom: 25px;
+}
+
+/* GRID */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 70px 28px;
+    padding: 30px;
+    align-items: stretch;
+}
+
+/* LOADING */
+
+.loading {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 1.2rem;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero-banner {
+        height: 300px;
+    }
+
+    .hero-overlay {
+        padding: 30px;
+    }
+
+    .hero-overlay h2 {
+        font-size: 2.2rem;
+    }
+
+    .hero-overlay p {
+        font-size: 1rem;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .logo {
+        font-size: 1.8rem;
+    }
+
+    .cart-btn {
+        padding: 10px 14px;
+    }
+
+    .hero-banner {
+        height: 220px;
+    }
+
+    .hero-overlay h2 {
+        font-size: 1.6rem;
+    }
+
+    .hero-overlay p {
+        display: none;
+    }
+
+}
+
+.catalog-section {
+    padding: 10px 20px 40px;
+}
+
+.catalog-title {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.2rem;
+    margin: 20px 30px;
+    color: #222;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 40px;
+
+    background: white;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.logo {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.4rem;
+    color: #7c3aed;
+    margin: 0;
+}
+
+.search-section {
+    display: flex;
+    gap: 14px;
+
+    flex: 1;
+
+    max-width: 700px;
+
+    margin: 0 40px;
+}
+
+.search-input {
+    flex: 1;
+
+    padding: 14px 18px;
+
+    border-radius: 50px;
+
+    border: 2px solid #ececec;
+
+    font-size: 1rem;
+
+    outline: none;
+
+    transition: 0.2s;
+}
+
+.search-input:focus {
+    border-color: #7c3aed;
+}
+
+.category-select {
+    padding: 14px 18px;
+
+    border-radius: 50px;
+
+    border: 2px solid #ececec;
+
+    background: white;
+
+    cursor: pointer;
+}
+
+.cart-button {
+    position: relative;
+
+    border: none;
+
+    background: #7c3aed;
+
+    color: white;
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    font-size: 1.5rem;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+}
+
+.cart-button:hover {
+    transform: scale(1.05);
+}
+
+.cart-button span {
+    position: absolute;
+
+    top: -5px;
+    right: -5px;
+
+    background: #ff4d6d;
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.8rem;
+
+    font-weight: bold;
+}
+
+.cart-container {
+    position: relative;
+}
+
+.btn-cart {
+    background: #7c3aed;
+    border: none;
+    color: white;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.3rem;
+    position: relative;
+    box-shadow: 0 6px 15px rgba(124, 58, 237, 0.3);
+}
+
+.cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff5a5a;
+    color: white;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-preview {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 350px;
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    z-index: 999;
+}
+
+.preview-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.preview-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    background: #f5f5f5;
+    border-radius: 12px;
+}
+
+.preview-info {
+    flex: 1;
+}
+
+.preview-info h4 {
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.preview-info p {
+    margin: 4px 0 0;
+    font-weight: bold;
+    color: #7c3aed;
+}
+
+.remove-btn {
+    background: #ffeded;
+    border: none;
+    color: #ff4d4d;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.preview-total {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    font-weight: bold;
+}
+
+.checkout-btn {
+    width: 100%;
+    margin-top: 15px;
+    background: #7c3aed;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-family: 'Fredoka', sans-serif;
+    padding: 14px;
+    border-radius: 14px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
-    margin-bottom: 15px;
+    font-weight: bold;
 }

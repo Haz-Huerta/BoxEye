@@ -1,9 +1,15 @@
-import {  AfterViewInit,  Component,  ElementRef,  ViewChild,  inject} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  ViewChild,
+  inject
+} from '@angular/core';
 import { CarritoService } from '../../services/carrito.service';
 import { PaypalService } from '../../services/paypal.service';
 import { CurrencyPipe } from '@angular/common';
-import { environment } from '../../../environments/environment';
 import { afterNextRender } from '@angular/core';
+
 declare const paypal: any;
 
 @Component({
@@ -13,7 +19,8 @@ declare const paypal: any;
   templateUrl: './checkout.component.html'
 })
 export class CheckoutComponent implements AfterViewInit {
-  @ViewChild('paypalButtonContainer')
+
+  @ViewChild('paypalButtonContainer', { static: false })
   paypalButtonContainer!: ElementRef<HTMLDivElement>;
 
   private carritoService = inject(CarritoService);
@@ -25,83 +32,133 @@ export class CheckoutComponent implements AfterViewInit {
   mensaje = '';
 
   constructor() {
+    // Espera a que Angular renderice y el carrito esté cargado
     afterNextRender(() => {
-    // Esto SOLO se ejecuta en el navegador, después de que el CarritoService
-    // haya recuperado los datos del localStorage.
-    if (this.carrito().length > 0) {
-      this.renderPaypalButton();
-    }
-  });
+      if (this.carrito().length > 0) {
+        this.renderPaypalButton();
+      } else {
+        this.mensaje = 'El carrito está vacío.';
+      }
+    });
   }
 
   ngAfterViewInit(): void {
-    
+    // Seguridad extra por si el ViewChild aún no estaba listo
+    if (this.carrito().length > 0) {
+      this.renderPaypalButton();
+    }
   }
 
   private renderPaypalButton(): void {
 
-    if (!this.paypalButtonContainer || this.paypalButtonContainer.nativeElement.innerHTML !== '') {
-      return; // Evita duplicados
-    }
-    console.log('Contenido del carrito al cargar checkout:', this.carrito());
+    console.log('PayPal SDK:', typeof paypal);
+    // Validaciones básicas
+    if (!this.paypalButtonContainer) return;
+
+    const container = this.paypalButtonContainer.nativeElement;
+
+    // Evita duplicar botones
+    if (container.innerHTML.trim() !== '') return;
 
     if (this.carrito().length === 0) {
-    this.mensaje = 'El carrito está vacío, no se puede procesar el pago.';
-    return; 
-  }
+      this.mensaje = 'El carrito está vacío, no se puede procesar el pago.';
+      return;
+    }
 
     if (typeof paypal === 'undefined') {
       this.mensaje = 'No se cargó el SDK de PayPal.';
       return;
     }
 
-    if (!this.paypalButtonContainer) {
-      return;
-    }
+    console.log('Carrito en checkout:', this.carrito());
+    console.log('Total:', this.total());
 
-    this.paypalButtonContainer.nativeElement.innerHTML = '';
+    // Limpia contenedor
+    container.innerHTML = '';
 
-    paypal.Buttons({
-      createOrder: (data: any, actions: any) => {
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: this.total().toString(), // Aquí le pasas tu total calculadov
-            currency_code: 'MXN'
-          },
-          description: 'Compra en Boxeye'
-        }]
-      });
-    },
+paypal.Buttons({
+  style: {
+    layout: 'vertical',
+    color: 'gold',
+    shape: 'rect',
+    label: 'paypal'
+  },
 
-    onApprove: async (data: any, actions: any) => {
+  createOrder: async () => {
   try {
-    // Forzamos la captura inmediata
-    const details = await actions.order.capture();
-    
-    if (details.status === 'COMPLETED') {
-      console.log('Pago exitoso para Boxeye');
-      this.generarYDescargarXML(details); // Pasa todo el objeto details
-    }
-  } catch (err) {
-    console.error('Error en la captura final:', err);
-    // Si aquí sigue saliendo 403, es porque tu cuenta personal de Sandbox no es de México
+    const carrito = this.carrito();
+
+    console.log('Carrito enviado:', carrito);
+    console.log('Total enviado:', this.total());
+
+    const response = await fetch('http://localhost:3000/api/paypal/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+  items: this.carrito().map(p => ({
+    nombre: p.nombre,
+    precio: Number(p.precio),
+    cantidad: 1
+  })),
+  total: Number(this.total().toFixed(2))
+})
+    });
+
+    const order = await response.json();
+
+    console.log('Respuesta backend:', order);
+
+    return order.id;
+
+  } catch (error) {
+    console.error("Error al crear la orden:", error);
   }
 },
 
-    onCancel: (data: any) => {
-      console.log('El usuario canceló el pago');
-    },
+  onApprove: async (data: any) => {
+    try {
+      const response = await fetch('http://localhost:3000/api/paypal/capture-order', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ orderId: data.orderID })
+    });
 
-    onError: (err: any) => {
-      console.error('Error en PayPal:', err);
+      const result = await response.json();
+
+      if (result.status === 'COMPLETED') {
+        this.generarYDescargarXML(result);
+
+    await fetch('http://localhost:3000/api/pedido', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    productos: this.carritoService.productos(),
+    total: this.carritoService.total()
+  })
+});
+
+        this.carritoService.vaciar();
+        this.mensaje = 'Pago completado con éxito.';
+      }
+
+    } catch (error) {
+      console.error("Error capturando pago:", error);
     }
-    
-    }).render(this.paypalButtonContainer.nativeElement);
+  },
+
+  onError: (err: any) => {
+    console.error("Error de PayPal:", err);
   }
-    private generarYDescargarXML(datosPago: any): void {
-    // Estructura básica del XML con los datos de tu carrito y el ID de pago
+
+}).render(container);
+  }
+
+  private generarYDescargarXML(datosPago: any): void {
+
     const fecha = new Date().toISOString();
+
     let xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
 <recibo>
   <tienda>Boxeye Store</tienda>
@@ -110,27 +167,40 @@ export class CheckoutComponent implements AfterViewInit {
   <productos>`;
 
     this.carrito().forEach(p => {
+      const precio = typeof p.precio === 'string'
+        ? parseFloat(p.precio)
+        : p.precio;
+
       xmlContent += `
     <producto>
-      <nombre>${p.nombre}</nombre>
-      <precio>${p.precio}</precio>
+      <nombre>${this.escapeXml(p.nombre)}</nombre>
+      <precio>${precio}</precio>
     </producto>`;
     });
 
     xmlContent += `
   </productos>
-  <total>${this.total()}</total>
+  <total>${this.total().toFixed(2)}</total>
   <estado>PAGADO</estado>
 </recibo>`;
 
-    // Crear el archivo y descargarlo
     const blob = new Blob([xmlContent], { type: 'application/xml' });
     const url = window.URL.createObjectURL(blob);
+
     const link = document.createElement('a');
     link.href = url;
     link.download = `Recibo_Boxeye_${datosPago.id}.xml`;
     link.click();
+
     window.URL.revokeObjectURL(url);
   }
-}
 
+  private escapeXml(value: string): string {
+    return value
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&apos;');
+  }
+}

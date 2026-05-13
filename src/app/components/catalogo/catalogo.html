@@ -1,26 +1,187 @@
-<header class="header">
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
-<h1>{{ vistaActiva() === 'catalogo' ? 'Catálogo de Productos' : 'Mi Carrito' }}</h1>
-  
-  @if (vistaActiva() === 'catalogo') {
-    <button class="btn-nav" (click)="cambiarVista('carrito')">
-      🛒 Ver Carrito ({{ carritoService.productos().length }})
-    </button>
-  <p class="stock-counter">Productos en stock: {{ inStockCount() }}</p>
-    }
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- NAVBAR -->
+<header class="navbar">
+
+  <div class="logo-section">
+    <h1 class="logo">
+      BOXEYE
+    </h1>
+  </div>
+
+  <div class="search-section">
+
+    <input
+      type="text"
+      placeholder="Buscar productos..."
+      class="search-input"
+    >
+
+    <select
+  class="category-select"
+  (change)="categoriaSeleccionada.set($any($event.target).value)"
+>
+
+  @for (cat of categorias(); track cat) {
+
+    <option [value]="cat">
+      {{ cat }}
+    </option>
+
+  }
+
+</select>
+
+  </div>
+
+<div class="cart-container">
+
+  <button
+    class="btn-cart"
+    (mouseenter)="mostrarPreview.set(true)"
+  >
+    🛒
+
+    <span class="cart-count">
+      {{ carritoService.productos().length }}
+    </span>
+
+  </button>
+
+  @if (mostrarPreview()) {
+
+    <div
+      class="cart-preview"
+      (mouseenter)="mostrarPreview.set(true)"
+      (mouseleave)="mostrarPreview.set(false)"
+    >
+
+      @if (carritoService.productos().length === 0) {
+
+        <p class="empty-cart">
+          Tu carrito está vacío
+        </p>
+
+      } @else {
+
+        @for (producto of carritoService.productos(); track $index) {
+
+          <div class="preview-item">
+
+            <img
+              [src]="producto.imagen"
+              alt="producto"
+            >
+
+            <div class="preview-info">
+
+              <h4>
+                {{ producto.nombre }}
+              </h4>
+
+              <p>
+                {{ producto.precio | currency:'MXN' }}
+              </p>
+
+            </div>
+
+            <button
+              class="remove-btn"
+              (click)="carritoService.quitar($index)"
+            >
+              ✕
+            </button>
+
+          </div>
+
+        }
+
+        <div class="preview-total">
+
+          Total:
+          {{ carritoService.total() | currency:'MXN' }}
+
+        </div>
+
+        <button
+          class="checkout-btn"
+          (click)="cambiarVista('carrito')"
+        >
+          Ver carrito
+        </button>
+
+      }
+
+    </div>
+
+  }
+
+</div>
+
 </header>
 
+<!-- HERO BANNER -->
 @if (vistaActiva() === 'catalogo') {
-@if (products().length === 0) {
-  <p>Cargando productos (o revisa la ruta del XML).</p>
-} @else {
-  <section class="grid">
-    @for (p of products(); track p.id) {
-      <app-product-card [product]="p" (add)="agregar($event)"></app-product-card>
-    }
-  </section>
+
+<section class="hero-banner">
+
+  <img
+    src="https://tinko.se/cdn/shop/files/1751538356379____pc.webp?v=1751845168&width=2048"
+    alt="Banner principal"
+    class="hero-image"
+  />
+
+  <div class="hero-overlay">
+    <h2>Descubre tu próxima sorpresa</h2>
+    <p>
+      Figuras, coleccionables y artículos únicos para tu colección.
+    </p>
+  </div>
+
+</section>
+
+
+
 }
+
+<!-- PRODUCTOS -->
+@if (vistaActiva() === 'catalogo') {
+
+  @if (products().length === 0) {
+
+    <p class="loading">
+      Cargando productos...
+    </p>
+
+  } @else {
+
+    <section class="products-section">
+
+      <div class="section-title">
+        <h2>Colección Destacada</h2>
+      </div>
+
+      <section class="grid">
+
+        @for (p of productosFiltrados(); track p.id) {
+
+          <app-product-card
+            [product]="p"
+            (add)="agregar($event)">
+          </app-product-card>
+
+        }
+
+      </section>
+
+    </section>
+
+  }
+
 } @else {
-  <app-carrito (volver)="cambiarVista('catalogo')"></app-carrito>
+
+  <app-carrito
+    (volver)="cambiarVista('catalogo')">
+  </app-carrito>
+
 }
-<hr class="sep" />

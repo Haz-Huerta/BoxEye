@@ -21,6 +21,26 @@ export class CatalogoComponent implements OnInit {
   products = signal<Product[]>([]);
   inStockCount = computed(() => this.products().filter(p => p.stock).length);
   vistaActiva = signal<'catalogo' | 'carrito'>('catalogo');
+  busqueda = signal('');
+  mostrarPreview = signal(false);
+  categoriaSeleccionada = signal('Todas');
+
+categorias = computed(() => {
+  const cats = this.products().map(p => p.categoria);
+  return ['Todas', ...new Set(cats)];
+});
+
+productosFiltrados = computed(() => {
+
+  if (this.categoriaSeleccionada() === 'Todas') {
+    return this.products();
+  }
+
+  return this.products().filter(
+    p => p.categoria === this.categoriaSeleccionada()
+  );
+});
+
 
   @Output() add = new EventEmitter<Product>();
 
@@ -36,6 +56,10 @@ export class CatalogoComponent implements OnInit {
     });
   }
 
+  toggleCartPreview() {
+  this.mostrarPreview.update(v => !v);
+  }
+
   agregar(producto: Product) {
     this.carritoService.agregar(producto);
     this.add.emit(producto);
@@ -49,7 +73,6 @@ export class CatalogoComponent implements OnInit {
   cambiarVista(vista: 'catalogo' | 'carrito') {
     this.vistaActiva.set(vista);
   }
+
 }
-
-
 
