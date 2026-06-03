@@ -16,7 +16,8 @@ declare const paypal: any;
   selector: 'app-checkout',
   standalone: true,
   imports: [CurrencyPipe],
-  templateUrl: './checkout.component.html'
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.css'],
 })
 export class CheckoutComponent implements AfterViewInit {
 
@@ -93,12 +94,16 @@ paypal.Buttons({
 
     const response = await fetch('http://localhost:3000/api/paypal/create-order', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json',
+        Authorization:
+      `Bearer ${localStorage.getItem('token')}`
+      },
       body: JSON.stringify({
   items: this.carrito().map(p => ({
-    nombre: p.nombre,
-    precio: Number(p.precio),
-    cantidad: 1
+  id: p.id,
+  nombre: p.nombre,
+  precio: Number(p.precio),
+  cantidad: Number(p.cantidad || 1)
   })),
   total: Number(this.total().toFixed(2))
 })
@@ -119,7 +124,10 @@ paypal.Buttons({
     try {
       const response = await fetch('http://localhost:3000/api/paypal/capture-order', {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  headers: { 'Content-Type': 'application/json',
+    Authorization:
+      `Bearer ${localStorage.getItem('token')}`
+   },
   body: JSON.stringify({ orderId: data.orderID })
     });
 
@@ -131,12 +139,18 @@ paypal.Buttons({
     await fetch('http://localhost:3000/api/pedido', {
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem('token')}`
   },
   body: JSON.stringify({
-    productos: this.carritoService.productos(),
-    total: this.carritoService.total()
-  })
+  productos: this.carritoService.productos().map(p => ({
+    id: p.id,
+    nombre: p.nombre,
+    precio: p.precio,
+    cantidad: p.cantidad || 1
+  })),
+  total: this.carritoService.total()
+})
 });
 
         this.carritoService.vaciar();

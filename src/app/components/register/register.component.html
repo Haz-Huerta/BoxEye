@@ -1,0 +1,87 @@
+<div class="auth-container">
+
+  <div class="auth-card">
+
+    <h1 class="auth-title">
+      Crear cuenta
+    </h1>
+
+    <p class="auth-subtitle">
+      Únete a BoxEye ✨
+    </p>
+
+    <div class="auth-form">
+
+      <div class="input-group">
+
+        <label>Nombre de usuario</label>
+
+        <input
+          type="text"
+          class="auth-input"
+          placeholder="Tu nombre"
+
+          [ngModel]="nombre_usuario()"
+          (ngModelChange)="nombre_usuario.set($event)"
+        >
+
+      </div>
+
+      <div class="input-group">
+
+        <label>Correo electrónico</label>
+
+        <input
+          type="email"
+          class="auth-input"
+          placeholder="correo@ejemplo.com"
+
+          [ngModel]="correo()"
+          (ngModelChange)="correo.set($event)"
+        >
+
+      </div>
+
+      <div class="input-group">
+
+        <label>Contraseña</label>
+
+        <input
+          type="password"
+          class="auth-input"
+          placeholder="********"
+
+          [ngModel]="contrasena()"
+          (ngModelChange)="contrasena.set($event)"
+        >
+
+      </div>
+
+      <button
+        class="auth-button"
+        (click)="registrar()"
+      >
+        Crear cuenta
+      </button>
+
+      @if (mensaje()) {
+
+        <p class="auth-error">
+          {{ mensaje() }}
+        </p>
+
+      }
+
+    </div>
+
+    <p class="auth-switch">
+  ¿Ya tienes cuenta?
+
+  <a routerLink="/login">
+    Inicia sesión
+  </a>
+</p>
+
+  </div>
+
+</div>

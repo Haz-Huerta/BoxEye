@@ -12,14 +12,46 @@
     <ul class="list">
       @for (producto of carrito(); track $index) {
         <li class="item">
-          <span class="line">
-            {{ producto.nombre }} - {{ producto.precio | currency:'MXN' }}
-          </span>
 
-          <button class="btn danger" (click)="quitar($index)">
-            Quitar
-          </button>
-        </li>
+  <div class="product-info">
+
+    <span class="line">
+      {{ producto.nombre }}
+    </span>
+
+    <span class="price">
+      {{ producto.precio | currency:'MXN' }}
+    </span>
+
+  </div>
+
+  <div class="quantity-controls">
+
+    <button
+      class="qty-btn"
+      (click)="disminuir(producto.id)">
+      −
+    </button>
+
+    <span class="qty-number">
+      {{ producto.cantidad }}
+    </span>
+
+    <button
+      class="qty-btn"
+      (click)="aumentar(producto.id)">
+      +
+    </button>
+
+  </div>
+
+  <button
+    class="btn danger"
+    (click)="quitar($index)">
+    ✕
+  </button>
+
+</li>
       }
     </ul>
 

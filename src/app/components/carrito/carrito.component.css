@@ -134,3 +134,43 @@
 .btn-pagar:hover {
   background-color: #f2ba36;
 }
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.price {
+    font-weight: bold;
+    color: #2F6F91;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.qty-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    border: none;
+    background: #E6F4FA;
+    color: #2F6F91;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.qty-btn:hover {
+    background: #CFE9F7;
+}
+
+.qty-number {
+    min-width: 20px;
+    text-align: center;
+    font-weight: bold;
+}

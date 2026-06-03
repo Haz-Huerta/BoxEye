@@ -11,8 +11,21 @@ import { Product } from '../../models/producto.model';
 export class ProductCard {
   @Input({required: true}) product!: Product;
   @Output() add = new EventEmitter<Product>();
+  @Output() detalle = new EventEmitter<Product>();
 
-  addToCart() {
-    this.add.emit(this.product);
+verDetalle() {
+  this.detalle.emit(this.product);
+}
+
+  addToCart(event: Event) {
+
+  event.stopPropagation();
+
+  if ((this.product.stock || 0) <= 0) {
+    return;
   }
+
+  this.add.emit(this.product);
+
+}
 }

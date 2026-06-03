@@ -1,10 +1,13 @@
 const db = require('../config/db');
+const { enviarFactura } =
+require('../services/email.service');
 
 exports.crearPedido = async (req, res) => {
   try {
 
-   const {
-  usuario_id = null,
+  const usuario_id = req.user.id;
+
+  const {
   productos,
   total
 } = req.body;
@@ -26,6 +29,20 @@ exports.crearPedido = async (req, res) => {
     ]);
 
     const pedidoId = pedidoResult.insertId;
+    const [usuarios] = await db.query(
+  `
+  SELECT correo
+  FROM usuarios
+  WHERE id = ?
+  `,
+  [usuario_id]
+);
+
+const correoUsuario =
+  usuarios[0].correo;
+
+    console.log('PRODUCTOS RECIBIDOS');
+    console.log(productos);
 
     // Insertar detalles
     for (const producto of productos) {
@@ -47,6 +64,18 @@ exports.crearPedido = async (req, res) => {
       ]);
 
     }
+
+    await enviarFactura(
+
+  correoUsuario,
+
+  pedidoId,
+
+  productos,
+
+  total
+
+);
 
     res.status(201).json({
       mensaje: 'Pedido registrado',

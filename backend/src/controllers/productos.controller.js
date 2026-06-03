@@ -4,7 +4,7 @@ const getProductos = async (req, res) => {
     try {
         // En mysql2/promise, query devuelve un array: [filas, campos]
         // Usamos [rows] para extraer solo los datos de los productos
-        const [rows] = await db.query('SELECT * FROM productos');
+        const [rows] = await db.query(' SELECT * FROM productos WHERE activo = 1');
         
         res.json(rows);
     } catch (error) {

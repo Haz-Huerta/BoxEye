@@ -9,13 +9,23 @@
     </h1>
   </div>
 
+  @if (isAdmin()) {
+
+  <a routerLink="/inventario">
+    Inventario
+  </a>
+
+}
+
   <div class="search-section">
 
     <input
-      type="text"
-      placeholder="Buscar productos..."
-      class="search-input"
-    >
+  type="text"
+  placeholder="Buscar productos..."
+  class="search-input"
+  [ngModel]="busqueda()"
+  (ngModelChange)="busqueda.set($event)"
+>
 
     <select
   class="category-select"
@@ -31,6 +41,56 @@
   }
 
 </select>
+
+<div class="user-actions">
+
+  @if (!authService.isLoggedIn()) {
+
+    <button
+      class="auth-btn"
+      routerLink="/login">
+
+      Login
+
+    </button>
+
+    <button
+      class="auth-btn register-btn"
+      routerLink="/registro">
+
+      Registro
+
+    </button>
+
+  } @else {
+
+    <button
+      class="auth-btn"
+      routerLink="/perfil">
+
+      Perfil
+
+    </button>
+
+    <button
+      class="auth-btn"
+      routerLink="/historial">
+
+      Historial
+
+    </button>
+
+    <button
+      class="auth-btn logout-btn"
+      (click)="logout()">
+
+      Salir
+
+    </button>
+
+  }
+
+</div>
 
   </div>
 
@@ -68,31 +128,45 @@
 
           <div class="preview-item">
 
-            <img
-              [src]="producto.imagen"
-              alt="producto"
-            >
+  <img [src]="producto.imagen" alt="producto">
 
-            <div class="preview-info">
+  <div class="preview-info">
 
-              <h4>
-                {{ producto.nombre }}
-              </h4>
+    <h4>{{ producto.nombre }}</h4>
 
-              <p>
-                {{ producto.precio | currency:'MXN' }}
-              </p>
+    <p>
+      {{ producto.precio | currency:'MXN' }}
+    </p>
 
-            </div>
+    <div class="preview-qty">
 
-            <button
-              class="remove-btn"
-              (click)="carritoService.quitar($index)"
-            >
-              ✕
-            </button>
+      <button
+        class="qty-btn"
+        (click)="carritoService.disminuirCantidad(producto.id)">
+        −
+      </button>
 
-          </div>
+      <span>
+        {{ producto.cantidad || 1 }}
+      </span>
+
+      <button
+        class="qty-btn"
+        (click)="carritoService.aumentarCantidad(producto.id)">
+        +
+      </button>
+
+    </div>
+
+  </div>
+
+  <button
+    class="remove-btn"
+    (click)="carritoService.quitar($index)">
+    ✕
+  </button>
+
+</div>
 
         }
 
@@ -166,13 +240,22 @@
         @for (p of productosFiltrados(); track p.id) {
 
           <app-product-card
-            [product]="p"
-            (add)="agregar($event)">
-          </app-product-card>
+  [product]="p"
+  (add)="agregar($event)"
+  (detalle)="abrirDetalle($event)">
+</app-product-card>
 
         }
 
       </section>
+
+      @if (productosFiltrados().length === 0) {
+
+  <p class="empty-search">
+    No se encontraron productos.
+  </p>
+
+}
 
     </section>
 
@@ -183,5 +266,95 @@
   <app-carrito
     (volver)="cambiarVista('catalogo')">
   </app-carrito>
+
+}
+
+@if (productoSeleccionado()) {
+
+  <div
+    class="modal-overlay"
+    (click)="cerrarDetalle()">
+
+    <div
+      class="product-modal"
+      (click)="$event.stopPropagation()">
+
+      <button
+        class="close-modal"
+        (click)="cerrarDetalle()">
+        ✕
+      </button>
+
+      <img
+        [src]="productoSeleccionado()?.imagen"
+        [alt]="productoSeleccionado()?.nombre"
+        class="modal-image"
+      >
+
+      <div class="modal-info">
+
+        <span class="modal-category">
+          {{ productoSeleccionado()?.categoria }}
+        </span>
+
+        <h2>
+          {{ productoSeleccionado()?.nombre }}
+        </h2>
+
+        <p class="modal-description">
+          {{ productoSeleccionado()?.descripcion }}
+        </p>
+
+        <div class="modal-price">
+          {{ productoSeleccionado()?.precio | currency:'MXN' }}
+        </div>
+
+        <div class="modal-stock">
+
+  @if ((productoSeleccionado()?.stock || 0) > 0) {
+
+    Stock:
+    {{ productoSeleccionado()?.stock }}
+    unidades
+
+  } @else {
+
+    <span class="out-stock">
+
+      Sin stock
+
+    </span>
+
+  }
+
+</div>
+
+        @if ((productoSeleccionado()?.stock || 0) > 0) {
+
+  <button
+    class="modal-add-btn"
+    (click)="agregar(productoSeleccionado()!)">
+
+    Agregar al carrito
+
+  </button>
+
+} @else {
+
+  <button
+    class="modal-add-btn agotado-btn"
+    disabled>
+
+    Agotado
+
+  </button>
+
+}
+
+      </div>
+
+    </div>
+
+  </div>
 
 }

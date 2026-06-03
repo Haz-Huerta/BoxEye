@@ -1,0 +1,429 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+
+}
+
+body {
+
+  margin: 0;
+
+}
+
+.inventory-container {
+
+  min-height: 100vh;
+
+  padding: 120px 20px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: flex-start;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c4dff,
+      #d1c4e9
+    );
+
+}
+
+.inventory-card {
+
+  max-width: 1400px;
+
+  margin: auto;
+
+  background: #f7f7f7;
+
+  border-radius: 35px;
+
+  padding: 50px;
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.12);
+
+}
+
+.inventory-title {
+
+  text-align: center;
+
+  font-size: 4rem;
+
+  color: #6c3df4;
+
+  margin-bottom: 10px;
+
+  font-weight: 700;
+
+}
+
+.inventory-subtitle {
+
+  text-align: center;
+
+  color: #777;
+
+  margin-bottom: 40px;
+
+  font-size: 1.2rem;
+
+}
+
+.stats-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 20px;
+
+  margin-bottom: 40px;
+
+}
+
+.stat-card {
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c4dff,
+      #b388ff
+    );
+
+  color: white;
+
+  padding: 30px;
+
+  border-radius: 24px;
+
+  text-align: center;
+
+}
+
+.stat-card h2 {
+
+  font-size: 2.5rem;
+
+  margin-bottom: 10px;
+
+}
+
+.stat-card p {
+
+  font-size: 1rem;
+
+  opacity: 0.9;
+
+}
+
+.form-grid {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 25px;
+
+  margin-bottom: 50px;
+
+}
+
+.form-grid input,
+.form-grid textarea {
+
+  width: 100%;
+
+  border: 2px solid #ddd;
+
+  border-radius: 24px;
+
+  padding: 22px;
+
+  font-size: 1.1rem;
+
+  background: white;
+
+  transition: 0.3s;
+
+}
+
+.form-grid textarea {
+
+  resize: vertical;
+
+  min-height: 180px;
+
+}
+
+.form-grid input:focus,
+.form-grid textarea:focus {
+
+  outline: none;
+
+  border-color: #8b5cf6;
+
+  box-shadow:
+    0 0 12px rgba(139,92,246,0.2);
+
+}
+
+.form-grid select {
+
+  width: 100%;
+
+  padding: 12px 14px;
+
+  border-radius: 12px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  background: #c7a7fc;
+
+  color: white;
+
+  font-size: 1.1rem;
+
+  outline: none;
+
+  transition: 0.2s;
+
+  appearance: none;
+
+  -webkit-appearance: none;
+
+  -moz-appearance: none;
+
+  cursor: pointer;
+
+}
+
+.form-grid select:focus {
+
+  border-color: #38bdf8;
+
+  box-shadow:
+    0 0 10px rgba(56,189,248,0.3);
+
+}
+
+.form-grid select {
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5l6 6 6-6'/%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+
+  background-position:
+    right 12px center;
+
+  background-size: 14px;
+
+}
+
+.preview-image {
+
+  width: 180px;
+
+  height: 180px;
+
+  object-fit: cover;
+
+  border-radius: 24px;
+
+  margin: auto;
+
+  border: 5px solid #eee;
+
+}
+
+.save-btn {
+
+  border: none;
+
+  padding: 22px;
+
+  border-radius: 24px;
+
+  font-size: 1.1rem;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ff6fb5,
+      #7c4dff
+    );
+
+  transition: 0.3s;
+
+}
+
+.save-btn:hover {
+
+  transform: translateY(-2px);
+
+  opacity: 0.95;
+
+}
+
+.table-container {
+
+  overflow-x: auto;
+
+}
+
+.inventory-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  overflow: hidden;
+
+  border-radius: 24px;
+
+}
+
+.inventory-table thead {
+
+  background:
+    linear-gradient(
+      90deg,
+      #7c4dff,
+      #8b5cf6
+    );
+
+  color: white;
+
+}
+
+.inventory-table th,
+.inventory-table td {
+
+  padding: 22px;
+
+  text-align: center;
+
+}
+
+.inventory-table tbody tr {
+
+  background: white;
+
+  border-bottom: 1px solid #eee;
+
+  transition: 0.3s;
+
+}
+
+.inventory-table tbody tr:hover {
+
+  background: #f4f0ff;
+
+}
+
+.table-image {
+
+  width: 90px;
+
+  height: 90px;
+
+  object-fit: cover;
+
+  border-radius: 18px;
+
+}
+
+.actions {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 12px;
+
+}
+
+.edit-btn,
+.delete-btn {
+
+  border: none;
+
+  padding: 12px 18px;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  color: white;
+
+  font-weight: 600;
+
+  transition: 0.3s;
+
+}
+
+.edit-btn {
+
+  background: #7c4dff;
+
+}
+
+.delete-btn {
+
+  background: #ff5e78;
+
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+
+  transform: scale(1.05);
+
+}
+
+.empty-table {
+
+  padding: 50px;
+
+  color: #888;
+
+  font-size: 1.1rem;
+
+}
+
+@media (max-width: 768px) {
+
+  .inventory-card {
+
+    padding: 25px;
+
+  }
+
+  .inventory-title {
+
+    font-size: 2.5rem;
+
+  }
+
+  .actions {
+
+    flex-direction: column;
+
+  }
+
+}

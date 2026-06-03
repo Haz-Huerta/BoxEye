@@ -5,11 +5,14 @@ import { ProductCard } from '../product-card/product-card';
 import { CarritoService } from '../../services/carrito.service';
 import { CarritoComponent } from '../carrito/carrito.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [ProductCard, CarritoComponent, CommonModule],
+  imports: [ProductCard, CarritoComponent, CommonModule, FormsModule, RouterLink],
   templateUrl: './catalogo.html',
   styleUrls: ['./catalogo.css'],
 })
@@ -24,6 +27,12 @@ export class CatalogoComponent implements OnInit {
   busqueda = signal('');
   mostrarPreview = signal(false);
   categoriaSeleccionada = signal('Todas');
+  productoSeleccionado = signal<Product | null>(null);
+
+  constructor(
+  public authService: AuthService,
+  private router: Router
+) {}
 
 categorias = computed(() => {
   const cats = this.products().map(p => p.categoria);
@@ -32,13 +41,22 @@ categorias = computed(() => {
 
 productosFiltrados = computed(() => {
 
-  if (this.categoriaSeleccionada() === 'Todas') {
-    return this.products();
-  }
+  const texto = this.busqueda().toLowerCase().trim();
 
-  return this.products().filter(
-    p => p.categoria === this.categoriaSeleccionada()
-  );
+  const categoria = this.categoriaSeleccionada();
+
+  return this.products().filter(producto => {
+
+    const coincideBusqueda =
+      producto.nombre.toLowerCase().includes(texto);
+
+    const coincideCategoria =
+      categoria === 'Todas'
+      || producto.categoria === categoria;
+
+    return coincideBusqueda && coincideCategoria;
+
+  });
 });
 
 
@@ -61,10 +79,23 @@ productosFiltrados = computed(() => {
   }
 
   agregar(producto: Product) {
-    this.carritoService.agregar(producto);
-    this.add.emit(producto);
-    console.log('Producto agregado al carrito:', producto);
+
+  if ((producto.stock || 0) <= 0) {
+    return;
   }
+
+  this.carritoService.agregar(producto);
+
+  this.add.emit(producto);
+
+  this.productoSeleccionado.set(null);
+
+  console.log(
+    'Producto agregado al carrito:',
+    producto
+  );
+
+}
 
   trackById(index: number, product: Product) {
     return product.id;
@@ -73,6 +104,28 @@ productosFiltrados = computed(() => {
   cambiarVista(vista: 'catalogo' | 'carrito') {
     this.vistaActiva.set(vista);
   }
+
+  abrirDetalle(producto: Product) {
+  this.productoSeleccionado.set(producto);
+}
+
+cerrarDetalle() {
+  this.productoSeleccionado.set(null);
+}
+
+logout() {
+
+  this.authService.logout();
+
+  this.router.navigate(['/']);
+
+}
+
+isAdmin(): boolean {
+
+  return this.authService.isAdmin();
+
+}
 
 }
 

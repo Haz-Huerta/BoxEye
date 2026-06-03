@@ -1,0 +1,49 @@
+<div class="history-page">
+
+  <div class="history-card">
+
+    <h1 class="history-title">
+      Historial de Compras
+    </h1>
+
+    <div *ngIf="pedidos.length > 0; else vacio">
+
+      <div
+        class="pedido"
+        *ngFor="let pedido of pedidos">
+
+        <p>
+          <strong>Pedido #:</strong>
+          {{ pedido.id }}
+        </p>
+
+        <p>
+          <strong>Total:</strong>
+          ${{ pedido.total }}
+        </p>
+
+        <p>
+          <strong>Estado:</strong>
+          {{ pedido.estado }}
+        </p>
+
+        <p>
+          <strong>Fecha:</strong>
+          {{ pedido.fecha_pedido | date:'medium' }}
+        </p>
+
+      </div>
+
+    </div>
+
+    <ng-template #vacio>
+
+      <p class="empty-message">
+        No hay pedidos aún.
+      </p>
+
+    </ng-template>
+
+  </div>
+
+</div>

@@ -1,0 +1,187 @@
+<div class="inventory-container">
+
+  <div class="inventory-card">
+
+    <h1 class="inventory-title">
+      Panel de Inventario
+    </h1>
+
+    <p class="inventory-subtitle">
+      Administra los productos de BoxEye
+    </p>
+
+    <!-- STATS -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+
+        <h2>
+          {{ productos.length }}
+        </h2>
+
+        <p>
+          Productos
+        </p>
+
+      </div>
+
+      <div class="stat-card">
+
+        <h2>
+          ${{ calcularTotalInventario() }}
+        </h2>
+
+        <p>
+          Valor inventario
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- FORMULARIO -->
+
+    <div class="form-grid">
+
+      <input
+        type="text"
+        placeholder="Nombre"
+        [(ngModel)]="producto.nombre"
+      >
+
+      <textarea
+        placeholder="Descripción"
+        [(ngModel)]="producto.descripcion"
+      ></textarea>
+
+      <input
+        type="number"
+        placeholder="Precio"
+        [(ngModel)]="producto.precio"
+      >
+
+      <input
+        type="text"
+        placeholder="URL Imagen"
+        [(ngModel)]="producto.imagen"
+      >
+
+      <select name="categoria" [(ngModel)]="producto.categoria">
+
+    <option value="Cartas">
+        Cartas
+    </option>
+
+    <option value="BlindBox">
+        Blind Box
+    </option>
+
+    </select>
+     
+        <input
+        type="number"
+        placeholder="Stock" 
+        [(ngModel)]="producto.stock"
+        >
+
+      @if (producto.imagen) {
+
+        <img
+          [src]="producto.imagen"
+          class="preview-image"
+        >
+
+      }
+
+      <button
+        class="save-btn"
+        (click)="guardarProducto()"
+      >
+
+        {{ editandoId !== null
+    ? 'Actualizar producto'
+    : 'Crear producto'
+        }}
+
+      </button>
+
+    </div>
+
+    <!-- TABLA -->
+
+    <div class="table-container">
+
+      <table class="inventory-table">
+
+        <thead>
+
+          <tr>
+
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>categoria</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+  <tr *ngFor="let p of productos">
+
+    <td>
+      <img
+        [src]="p.imagen"
+        class="table-image"
+      >
+    </td>
+
+    <td>
+      {{ p.nombre }}
+    </td>
+
+    <td>
+      ${{ p.precio }}
+    </td>
+
+    <td>
+        {{ p.categoria }}
+    </td>
+
+    <td>
+        {{ p.stock }}
+    </td>
+
+    <td class="actions">
+
+      <button
+        class="edit-btn"
+        (click)="editarProducto(p)"
+      >
+        Editar
+      </button>
+
+      <button
+        class="delete-btn"
+        (click)="eliminarProducto(p.id)"
+      >
+        Eliminar
+      </button>
+
+    </td>
+
+  </tr>
+
+</tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

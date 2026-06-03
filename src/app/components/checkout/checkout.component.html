@@ -1,29 +1,57 @@
-<div class="checkout-card">
-  <h3>Resumen del pedido</h3>
+<div class="checkout-page">
 
-  @if (carrito().length === 0) {
-    <p>Tu carrito está vacío.</p>
-  } @else {
+  <div class="checkout-card">
+
+    <h1 class="checkout-title">
+      Finalizar Compra
+    </h1>
+
+    <p class="checkout-subtitle">
+      Revisa tu pedido antes de completar el pago
+    </p>
+
+    <h3 class="summary-title">
+      Resumen del pedido
+    </h3>
 
     @for (producto of carrito(); track $index) {
+
       <div class="product-row">
-        <span>{{ producto.nombre }}</span>
-        <span>{{ producto.precio | currency:'MXN' }}</span>
+
+        <div class="product-info">
+
+          <span class="product-name">
+            {{ producto.nombre }}
+          </span>
+
+          <span class="product-qty">
+            Cantidad: {{ producto.cantidad }}
+          </span>
+
+        </div>
+
+        <span class="product-price">
+          {{ producto.precio | currency:'MXN' }}
+        </span>
+
       </div>
+
     }
 
-    <hr>
+    <div class="divider"></div>
 
     <div class="total-row">
-      <span>Total:</span>
-      <strong>{{ total() | currency:'MXN' }}</strong>
+      <span>Total</span>
+
+      <strong>
+        {{ total() | currency:'MXN' }}
+      </strong>
     </div>
 
-    <!-- IMPORTANTE: contenedor limpio -->
-    <div #paypalButtonContainer></div>
-  }
+    <div class="paypal-wrapper">
+      <div #paypalButtonContainer></div>
+    </div>
 
-  @if (mensaje) {
-    <p class="status-message">{{ mensaje }}</p>
-  }
+  </div>
+
 </div>

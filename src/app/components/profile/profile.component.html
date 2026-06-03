@@ -1,0 +1,169 @@
+<div class="profile-page">
+
+  <div class="profile-card">
+
+    <h1 class="profile-title">
+      Mi Perfil
+    </h1>
+
+    <!-- NOMBRE -->
+
+    <div class="profile-section">
+
+      <p class="section-label">
+        Nombre de usuario
+      </p>
+
+      @if (!editandoNombre()) {
+
+        <p class="section-value">
+          {{ usuario()?.nombre_usuario }}
+        </p>
+
+        <button
+          class="profile-btn edit-btn"
+          (click)="editandoNombre.set(true)">
+
+          Editar
+
+        </button>
+
+      } @else {
+
+        <input
+          type="text"
+          class="profile-input"
+          [ngModel]="nuevoNombre()"
+          (ngModelChange)="nuevoNombre.set($event)"
+        >
+
+        <button
+          class="profile-btn save-btn"
+          (click)="guardarNombre()">
+
+          Guardar cambios
+
+        </button>
+
+      }
+
+    </div>
+
+    <!-- CORREO -->
+
+    <div class="profile-section">
+
+      <p class="section-label">
+        Correo electrónico
+      </p>
+
+      @if (!editandoCorreo()) {
+
+        <p class="section-value">
+          {{ censurarCorreo(usuario()?.correo) }}
+        </p>
+
+        <button
+          class="profile-btn edit-btn"
+          (click)="editandoCorreo.set(true)">
+
+          Editar
+
+        </button>
+
+      } @else {
+
+        <input
+          type="email"
+          class="profile-input"
+          [ngModel]="nuevoCorreo()"
+          (ngModelChange)="nuevoCorreo.set($event)"
+        >
+
+        <button
+          class="profile-btn save-btn"
+          (click)="guardarCorreo()">
+
+          Guardar cambios
+
+        </button>
+
+      }
+
+    </div>
+
+    <!-- CONTRASEÑA -->
+
+    <div class="profile-section">
+
+      <p class="section-label">
+        Contraseña
+      </p>
+
+      @if (!editandoPassword()) {
+
+        <p class="section-value">
+          ••••••••••••
+        </p>
+
+        <button
+          class="profile-btn edit-btn"
+          (click)="editandoPassword.set(true)">
+
+          Cambiar contraseña
+
+        </button>
+
+      } @else {
+
+        <div class="password-grid">
+
+          <input
+            type="password"
+            class="profile-input"
+            placeholder="Contraseña actual"
+            [ngModel]="passwordActual()"
+            (ngModelChange)="passwordActual.set($event)"
+          >
+
+          <input
+            type="password"
+            class="profile-input"
+            placeholder="Nueva contraseña"
+            [ngModel]="nuevaPassword()"
+            (ngModelChange)="nuevaPassword.set($event)"
+          >
+
+          <input
+            type="password"
+            class="profile-input"
+            placeholder="Confirmar nueva contraseña"
+            [ngModel]="confirmarPassword()"
+            (ngModelChange)="confirmarPassword.set($event)"
+          >
+
+        </div>
+
+        <button
+          class="profile-btn save-btn"
+          (click)="guardarPassword()">
+
+          Actualizar contraseña
+
+        </button>
+
+      }
+
+    </div>
+
+    @if (mensaje()) {
+
+      <p class="profile-message">
+        {{ mensaje() }}
+      </p>
+
+    }
+
+  </div>
+
+</div>

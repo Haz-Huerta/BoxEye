@@ -1,0 +1,82 @@
+<div class="auth-container">
+
+  <div class="auth-card">
+
+    <h1 class="auth-title">
+      Bienvenido
+    </h1>
+
+    <p class="auth-subtitle">
+      Inicia sesión para continuar
+    </p>
+
+    <div class="auth-form">
+
+      <div class="input-group">
+
+        <label>Correo electrónico</label>
+
+        <input
+          type="email"
+          class="auth-input"
+          placeholder="correo@ejemplo.com"
+
+          [ngModel]="correo()"
+          (ngModelChange)="correo.set($event)"
+        >
+
+      </div>
+
+      <div class="input-group">
+
+        <label>Contraseña</label>
+
+        <input
+          type="password"
+          class="auth-input"
+          placeholder="********"
+
+          [ngModel]="contrasena()"
+          (ngModelChange)="contrasena.set($event)"
+        >
+
+      </div>
+
+      <button
+        class="auth-button"
+        (click)="login()"
+      >
+        Iniciar sesión
+      </button>
+
+      @if (mensaje()) {
+
+        <p class="auth-error">
+          {{ mensaje() }}
+        </p>
+
+      }
+
+    </div>
+
+    <p class="auth-switch">
+  ¿No tienes cuenta?
+
+  <a routerLink="/registro">
+    Regístrate
+  </a>
+</p>
+
+<p class="forgot-password">
+
+  ¿Olvidaste tu contraseña?
+
+  <a routerLink="/recuperar-password">
+    Recuperar
+  </a>
+
+</p>
+
+  </div>
+
+</div>

@@ -1,85 +1,155 @@
-/* Contenedor Principal */
-h2 {
-  font-family: 'Urbanist', sans-serif;
-  font-size: 2.5rem;
-  color: #1a1a1a;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 
-/* Estado de Carrito Vacío */
-p {
-  font-family: 'Urbanist', sans-serif;
-  color: #666;
-  text-align: center;
-}
-
-a[routerLink="/"] {
+:host {
   display: block;
-  text-align: center;
-  margin-top: 1rem;
-  color: #0070ba; /* Azul PayPal */
-  text-decoration: none;
-  font-weight: 600;
+  min-height: 100vh;
 }
 
-/* Tarjeta del Resumen del Pedido */
+/* PAGINA */
+.checkout-page {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px 20px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #8671f2 0%,
+      #98f7f2 100%
+    );
+}
+
+/* CARD */
 .checkout-card {
-  max-width: 500px;
-  margin: 2rem auto;
-  background: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 650px;
+
+  background: white;
+
+  border-radius: 30px;
+
+  padding: 40px;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.08);
+
+  border: 3px solid #edf2ff;
 }
 
-h3 {
-  font-size: 1.2rem;
-  text-transform: uppercase;
+/* TITULO */
+.checkout-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+
+  margin-bottom: 10px;
+
+  color: #2f3f5f;
+
+  font-family: 'Fredoka', sans-serif;
+
   letter-spacing: 1px;
-  margin-bottom: 1.5rem;
-  color: #333;
-  border-bottom: 2px solid #deff9a; /* Tu color de acento */
-  display: inline-block;
 }
 
-/* Lista de Productos */
+.checkout-subtitle {
+  color: #6b7280;
+  margin-bottom: 35px;
+
+  font-family: 'Outfit', sans-serif;
+
+  font-size: 1rem;
+}
+
+/* RESUMEN */
+.summary-title {
+  margin-bottom: 25px;
+
+  color: #374151;
+
+  font-family: 'Fredoka', sans-serif;
+
+  font-size: 1.5rem;
+}
+
+/* PRODUCTOS */
 .product-row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  align-items: center;
+
+  padding: 18px;
+
+  border-radius: 18px;
+
+  background: #fafbff;
+
+  border: 2px solid #edf2ff;
+
+  margin-bottom: 15px;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-name {
+  font-weight: 600;
+  color: #374151;
+
+  font-family: 'Outfit', sans-serif;
+
   font-size: 1rem;
-  color: #444;
 }
 
-hr {
-  border: 0;
-  border-top: 1px solid #eee;
-  margin: 1.5rem 0;
+.product-qty {
+  margin-top: 5px;
+
+  font-size: 0.9rem;
+
+  color: #6b7280;
+
+  font-family: 'Outfit', sans-serif;
 }
 
+.product-price {
+  font-weight: 700;
+
+  color: #7c3aed;
+
+  font-family: 'Fredoka', sans-serif;
+
+  font-size: 1.1rem;
+}
+
+/* DIVIDER */
+.divider {
+  height: 2px;
+  background: #ececec;
+  margin: 25px 0;
+  border-radius: 999px;
+}
+
+/* TOTAL */
 .total-row {
   display: flex;
   justify-content: space-between;
-  font-size: 1.25rem;
-  color: #000;
-  margin-bottom: 2rem;
+
+  font-size: 1.4rem;
+  font-weight: 700;
+
+  margin-bottom: 25px;
+
+  color: #1f2937;
+
+  font-family: 'Fredoka', sans-serif;
 }
 
-/* Contenedor de PayPal */
-#paypal-button-container {
+/* PAYPAL */
+.paypal-wrapper {
   margin-top: 20px;
-  min-height: 150px; /* Evita que el layout salte al cargar */
-}
-
-/* Mensajes de Feedback */
-.status-message {
-  margin-top: 1.5rem;
-  padding: 12px;
-  border-radius: 8px;
-  text-align: center;
-  font-weight: 500;
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
 }

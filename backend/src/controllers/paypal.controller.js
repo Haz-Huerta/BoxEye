@@ -7,6 +7,7 @@ const {
 async function createOrder(req, res) {
   try {
 
+    const userId = req.user.id;
     const { items, total } = req.body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {

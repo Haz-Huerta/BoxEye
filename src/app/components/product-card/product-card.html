@@ -1,4 +1,4 @@
-<article>
+<article class="product-card" (click)="verDetalle()">
     <div class="image-container">
    <img [src]="product.imagen" />
     </div>
@@ -8,9 +8,10 @@
             <span>${{ product.precio }}</span>
         </div>
         <p>{{ product.categoria }}</p>
-        <p>{{ product.descripcion }}</p>
         
-        <button (click)="addToCart()" [disabled]="product.stock === 0">
+        <button
+  (click)="addToCart($event)"
+  [disabled]="product.stock === 0">
         Agregar
         </button>
 

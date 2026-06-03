@@ -7,7 +7,6 @@ import { Signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 
-
 @Component({
   selector: 'app-carrito',
   standalone: true,
@@ -36,6 +35,14 @@ export class CarritoComponent {
   exportarXML() {
     this.carritoService.exportarXML();
   }
+
+  aumentar(id: number) {
+  this.carritoService.aumentarCantidad(id);
+}
+
+disminuir(id: number) {
+  this.carritoService.disminuirCantidad(id);
+}
 
   regresar() {
     this.volver.emit();
